@@ -122,7 +122,7 @@ func (mod *GPS) readLine() (line string, err error) {
 }
 
 func (mod *GPS) Show() error {
-	fmt.Printf("latitude:%f longitude:%f quality:%s satellites:%d altitude:%f\n",
+	mod.Printf("latitude:%f longitude:%f quality:%s satellites:%d altitude:%f\n",
 		mod.Session.GPS.Latitude,
 		mod.Session.GPS.Longitude,
 		mod.Session.GPS.FixQuality,
@@ -191,11 +191,11 @@ func (mod *GPS) Start() error {
 	}
 
 	return mod.SetRunning(true, func() {
-		defer mod.serial.Close()
-
 		mod.Info("started on port %s ...", mod.serialPort)
 
 		if mod.serial != nil {
+			defer mod.serial.Close()
+
 			for mod.Running() {
 				mod.readFromSerial()
 			}
